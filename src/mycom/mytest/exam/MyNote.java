@@ -39,7 +39,7 @@ public class MyNote implements ActionListener {
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
 
-        // 텍스트 위치 생성 및 크기 지정
+        // 텍스트 위치 생성 및 크기 지정.
         textArea = new JTextArea();
         textArea.setBounds(5, 5, 360, 320);
         frame.add(menuBar);
