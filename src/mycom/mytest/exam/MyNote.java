@@ -12,7 +12,7 @@ public class MyNote implements ActionListener {
     JTextArea textArea;
 
 
-    // UI초기화 및 구성
+    // UI초기화 및 구성.
     MyNote() {
         frame = new JFrame("Java 메모장");
         cutItem = new JMenuItem("잘라내기");
