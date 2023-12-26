@@ -9,6 +9,17 @@ public class Circle extends BoardObject{
     @Override
     public void display(Graphics g) {
         g.setColor(color);
-        g.drawOval(x1, y1, Math.abs(x1 - x2), Math.abs(y1 - y2));
+        int xDiff = x2 - x1;
+        int yDiff = y2 - y1;
+
+        if (xDiff > 0 && yDiff > 0) {
+            g.drawOval(x1, y1, xDiff, yDiff);
+        } else if (xDiff < 0 && yDiff > 0) {
+            g.drawOval(x2, y1, xDiff * (-1), yDiff);
+        } else if (xDiff > 0 && yDiff < 0) {
+            g.drawOval(x1, y2, xDiff, yDiff * (-1));
+        } else {
+            g.drawOval(x2, y2, xDiff * (-1), yDiff * (-1));
+        }
     }
 }

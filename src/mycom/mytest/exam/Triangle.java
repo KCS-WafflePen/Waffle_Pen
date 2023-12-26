@@ -12,5 +12,6 @@ public class Triangle extends BoardObject {
         int[] xArr = {x1, (x1 + x2)/2, x2};
         int[] yArr = {y2, y1, y2};
         g.drawPolygon(xArr, yArr, 3);
+
     }
 }
