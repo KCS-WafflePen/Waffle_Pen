@@ -11,7 +11,6 @@
 ##### 조하현 | @hahyeon-oyo
 
 ## 개발환경
-JDK17\n
-Eclipse 2020.12v
+JDK17, Eclipse 2020.12v
 
 ## License
