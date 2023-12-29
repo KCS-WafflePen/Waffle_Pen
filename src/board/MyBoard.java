@@ -130,40 +130,37 @@ public class MyBoard extends JPanel {
     }//class DrawButtons
 
     protected class ColorButtons extends JPanel {
-        // Button variable
+        // 버튼 변수
         Button redButton = new Button("Red");
-        Button blackButton = new Button("black");
+        Button blackButton = new Button("Black");
         Button blueButton = new Button("Blue");
-        Button  YellowButton = new Button("Yellow");
-        Button VioletButton = new Button("Violet");
-        Button GreenButton = new Button("Green");
-        Button IndigoButton = new Button("Indigo");
+        Button yellowButton = new Button("Yellow");  // 대소문자 수정
+        Button violetButton = new Button("Violet");  // 대소문자 수정
+        Button greenButton = new Button("Green");
+        Button indigoButton = new Button("Indigo");
 
-        // Constructor
-        ColorButtons(){
+        // 생성자
+        ColorButtons() {
             addEvent();
 
             setLayout(new GridLayout(0, 1));
 
             this.add(redButton);
             this.add(blueButton);
-            this.add(YellowButton);
-            this.add(VioletButton);
-            this.add(GreenButton);
-            this.add(IndigoButton);
-
+            this.add(yellowButton);
+            this.add(violetButton);
+            this.add(greenButton);
+            this.add(indigoButton);
         }//class ColorButtons()
 
         private void addEvent() {
             redButton.addActionListener(actHandler);
             blueButton.addActionListener(actHandler);
             blackButton.addActionListener(actHandler);
-            YellowButton.addActionListener(actHandler);
-            GreenButton.addActionListener(actHandler);
-            VioletButton.addActionListener(actHandler);
-            IndigoButton.addActionListener(actHandler);
-
-
+            yellowButton.addActionListener(actHandler);
+            greenButton.addActionListener(actHandler);
+            violetButton.addActionListener(actHandler);
+            indigoButton.addActionListener(actHandler);
         }
     }//class ColorButtons
 
@@ -185,7 +182,7 @@ public class MyBoard extends JPanel {
             } else if (e.getSource() == dbtn.triangleButton) {
                 MyBoard.this.type = "Triangle";
             } else if (e.getSource() == dbtn.redoButton) {
-               MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
+                MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
                 repaint();
             } else if (e.getSource() == dbtn.resetButton) {
                 MyBoard.this.boardObjectList.clear();
@@ -196,10 +193,20 @@ public class MyBoard extends JPanel {
                 MyBoard.this.color = Color.blue;
             } else if (e.getSource() == cbtn.blackButton) {
                 MyBoard.this.color = Color.black;
+            } else if (e.getSource() == cbtn.yellowButton) {
+                MyBoard.this.color = Color.yellow;
+            } else if (e.getSource() == cbtn.violetButton) {
+                MyBoard.this.color = new Color(148, 0, 211);  // Violet
+            } else if (e.getSource() == cbtn.greenButton) {
+                MyBoard.this.color = Color.green;
+            } else if (e.getSource() == cbtn.indigoButton) {
+                MyBoard.this.color = new Color(75, 0, 130);   // Indigo
             }
+
             refreshTypeColorLabel();
         }
     }//class ActionHandler
+
 
     class MouseHandler extends MouseAdapter {
         @Override
