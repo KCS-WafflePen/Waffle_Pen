@@ -132,22 +132,38 @@ public class MyBoard extends JPanel {
     protected class ColorButtons extends JPanel {
         // Button variable
         Button redButton = new Button("Red");
+        Button blackButton = new Button("black");
         Button blueButton = new Button("Blue");
-        Button blackButton = new Button("Black");
+        Button  YellowButton = new Button("Yellow");
+        Button VioletButton = new Button("Violet");
+        Button GreenButton = new Button("Green");
+        Button IndigoButton = new Button("Indigo");
 
         // Constructor
         ColorButtons(){
             addEvent();
 
+            setLayout(new GridLayout(0, 1));
+
             this.add(redButton);
             this.add(blueButton);
-            this.add(blackButton);
+            this.add(YellowButton);
+            this.add(VioletButton);
+            this.add(GreenButton);
+            this.add(IndigoButton);
+
         }//class ColorButtons()
 
         private void addEvent() {
             redButton.addActionListener(actHandler);
             blueButton.addActionListener(actHandler);
             blackButton.addActionListener(actHandler);
+            YellowButton.addActionListener(actHandler);
+            GreenButton.addActionListener(actHandler);
+            VioletButton.addActionListener(actHandler);
+            IndigoButton.addActionListener(actHandler);
+
+
         }
     }//class ColorButtons
 
