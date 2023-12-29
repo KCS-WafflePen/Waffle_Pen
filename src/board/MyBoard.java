@@ -48,6 +48,12 @@ public class MyBoard extends JPanel {
         typeLabel.setBackground(this.color);
         typeLabel.setForeground(Color.white);
 
+        ubtn.setLayout(new GridLayout(1, 8));
+        ubtn.setPreferredSize(new Dimension(800, 40));
+
+        dbtn.setLayout(new GridLayout(1, 7));
+        dbtn.setPreferredSize(new Dimension(800, 40));
+
         this.setLayout(new BorderLayout());
         this.add("North", ubtn);
         this.add("South", dbtn);
@@ -76,19 +82,28 @@ public class MyBoard extends JPanel {
     //Button
     protected class UtilButtons extends JPanel {
         // Button variable
-        Button saveButton = new Button("Save");
+        Button resetButton = new Button("Reset");
         Button exitButton = new Button("Exit");
 
         // Constructor
         UtilButtons() {
             addEvent();
 
-            this.add(saveButton);
+            // empty space
+            this.add(new Panel());
+            this.add(new Panel());
+            this.add(new Panel());
+            this.add(new Panel());
+            this.add(new Panel());
+            this.add(new Panel());
+
+            this.add(resetButton);
             this.add(exitButton);
         }//Constructor UtilButtons()
 
         // Method
         private void addEvent() {
+            resetButton.addActionListener(actHandler);
             exitButton.addActionListener(actHandler);
         }
     }//class UtilButton
@@ -102,7 +117,8 @@ public class MyBoard extends JPanel {
         Button triangleButton = new Button("Triangle");
 
         Button redoButton = new Button("Redo");
-        Button resetButton = new Button("Reset");
+
+        Button saveButton = new Button("Save");
 
         // Constructor
         DrawButtons() {
@@ -114,7 +130,7 @@ public class MyBoard extends JPanel {
             this.add(rectangularButton);
             this.add(triangleButton);
             this.add(redoButton);
-            this.add(resetButton);
+            this.add(saveButton);
         }//Constructor DrawButtons()
 
         //Method
@@ -125,7 +141,6 @@ public class MyBoard extends JPanel {
             rectangularButton.addActionListener(actHandler);
             triangleButton.addActionListener(actHandler);
             redoButton.addActionListener(actHandler);
-            resetButton.addActionListener(actHandler);
         }
     }//class DrawButtons
 
@@ -184,7 +199,7 @@ public class MyBoard extends JPanel {
             } else if (e.getSource() == dbtn.redoButton) {
                 MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
                 repaint();
-            } else if (e.getSource() == dbtn.resetButton) {
+            } else if (e.getSource() == ubtn.resetButton) {
                 MyBoard.this.boardObjectList.clear();
                 repaint();
             } else if (e.getSource() == cbtn.redButton) {
