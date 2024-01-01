@@ -48,8 +48,8 @@ public class MyBoard extends JPanel {
         this.setBackground(Color.white);
         this.setLayout(new BorderLayout());
 
-        this.add("North", ubtnp);
-        this.add("South", dbtnp);
+        this.add("South", ubtnp);
+        this.add("North", dbtnp);
         this.add("East", cbtnp);
         this.add("Center", dpp);
     }//makeUI
@@ -70,6 +70,8 @@ public class MyBoard extends JPanel {
         // Constructor
         UtilButtons() {
             addEvent();
+            this.setLayout(new FlowLayout(FlowLayout.RIGHT));
+            this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 80));
 
             this.add(saveButton);
             this.add(exitButton);
@@ -121,20 +123,34 @@ public class MyBoard extends JPanel {
         // Button variable
         JButton redButton = new JButton("Red");
         JButton blueButton = new JButton("Blue");
+        JButton yellowButton = new JButton("Yellow");
+        JButton violetButton = new JButton("Violet");
+        JButton greenButton = new JButton("Green");
+        JButton indigoButton = new JButton("Indigo");
         JButton blackButton = new JButton("Black");
 
         // Constructor
         ColorButtonPanel(){
             addEvent();
 
+            this.setLayout(new GridLayout(0, 1));
+
             this.add(redButton);
             this.add(blueButton);
+            this.add(yellowButton);
+            this.add(violetButton);
+            this.add(greenButton);
+            this.add(indigoButton);
             this.add(blackButton);
         }//class ColorButtons()
 
         private void addEvent() {
             redButton.addActionListener(actHandler);
             blueButton.addActionListener(actHandler);
+            yellowButton.addActionListener(actHandler);
+            greenButton.addActionListener(actHandler);
+            violetButton.addActionListener(actHandler);
+            indigoButton.addActionListener(actHandler);
             blackButton.addActionListener(actHandler);
         }
     }//class ColorButtonPanel
@@ -235,6 +251,14 @@ public class MyBoard extends JPanel {
                 MyBoard.this.color = Color.red;
             } else if (e.getSource() == cbtnp.blueButton) {
                 MyBoard.this.color = Color.blue;
+            } else if (e.getSource() == cbtnp.yellowButton) {
+                MyBoard.this.color = Color.yellow;
+            } else if (e.getSource() == cbtnp.violetButton) {
+                MyBoard.this.color = new Color(148, 0, 211);  // Violet
+            } else if (e.getSource() == cbtnp.greenButton) {
+                MyBoard.this.color = Color.green;
+            } else if (e.getSource() == cbtnp.indigoButton) {
+                MyBoard.this.color = new Color(75, 0, 130);   // Indigo
             } else if (e.getSource() == cbtnp.blackButton) {
                 MyBoard.this.color = Color.black;
             }
