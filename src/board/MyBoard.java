@@ -22,9 +22,10 @@ public class MyBoard extends JPanel {
     private final ActionHandler actHandler = new ActionHandler();
 
     // Panel
-    private UtilButtons ubtn = new UtilButtons();
-    private DrawButtons dbtn = new DrawButtons();
-    private ColorButtons cbtn = new ColorButtons();
+    private final UtilButtons ubtnp = new UtilButtons();
+    private final DrawButtonPanel dbtnp = new DrawButtonPanel();
+    private final ColorButtonPanel cbtnp = new ColorButtonPanel();
+    private final DrawPaintPanel dpp = new DrawPaintPanel();
 
     // Label
     private Label typeLabel = new Label(this.type);
@@ -36,10 +37,6 @@ public class MyBoard extends JPanel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        this.setBackground(Color.PINK);
-        this.addMouseListener(new MouseHandler());
-        this.addMouseMotionListener(new MouseHandler());
     }//Constructor()
 
 
@@ -48,10 +45,13 @@ public class MyBoard extends JPanel {
         typeLabel.setBackground(this.color);
         typeLabel.setForeground(Color.white);
 
+        this.setBackground(Color.white);
         this.setLayout(new BorderLayout());
-        this.add("North", ubtn);
-        this.add("South", dbtn);
-        this.add("East", cbtn);
+
+        this.add("North", ubtnp);
+        this.add("South", dbtnp);
+        this.add("East", cbtnp);
+        this.add("Center", dpp);
     }//makeUI
 
     private void refreshTypeColorLabel() {
@@ -59,25 +59,13 @@ public class MyBoard extends JPanel {
         typeLabel.setText(type);
     }
 
-    @Override
-    public void paint(Graphics g) {
-        if (boardObjectList != null) {
-            for (PaintObject obj : boardObjectList) {
-                obj.display(g);
-            }
-        }
-        if (preview != null) {
-            preview.display(g);
-        }
-    }//paint
-
 
     //--inner
     //Button
     protected class UtilButtons extends JPanel {
         // Button variable
-        Button saveButton = new Button("Save");
-        Button exitButton = new Button("Exit");
+        JButton saveButton = new JButton("Save");
+        JButton exitButton = new JButton("Exit");
 
         // Constructor
         UtilButtons() {
@@ -93,19 +81,19 @@ public class MyBoard extends JPanel {
         }
     }//class UtilButton
 
-    protected class DrawButtons extends JPanel {
+    protected class DrawButtonPanel extends JPanel {
         // Button variable
-        Button lineButton = new Button("Line");
-        Button brushButton = new Button("Brush");
-        Button circleButton = new Button("Circle");
-        Button rectangularButton = new Button("Rect");
-        Button triangleButton = new Button("Triangle");
+        JButton lineButton = new JButton("Line");
+        JButton brushButton = new JButton("Brush");
+        JButton circleButton = new JButton("Circle");
+        JButton rectangularButton = new JButton("Rect");
+        JButton triangleButton = new JButton("Triangle");
 
-        Button redoButton = new Button("Redo");
-        Button resetButton = new Button("Reset");
+        JButton redoButton = new JButton("Redo");
+        JButton resetButton = new JButton("Reset");
 
         // Constructor
-        DrawButtons() {
+        DrawButtonPanel() {
             addEvent();
 
             this.add(brushButton);
@@ -127,16 +115,16 @@ public class MyBoard extends JPanel {
             redoButton.addActionListener(actHandler);
             resetButton.addActionListener(actHandler);
         }
-    }//class DrawButtons
+    }//class DrawButtonPanel
 
-    protected class ColorButtons extends JPanel {
+    protected class ColorButtonPanel extends JPanel {
         // Button variable
-        Button redButton = new Button("Red");
-        Button blueButton = new Button("Blue");
-        Button blackButton = new Button("Black");
+        JButton redButton = new JButton("Red");
+        JButton blueButton = new JButton("Blue");
+        JButton blackButton = new JButton("Black");
 
         // Constructor
-        ColorButtons(){
+        ColorButtonPanel(){
             addEvent();
 
             this.add(redButton);
@@ -149,96 +137,109 @@ public class MyBoard extends JPanel {
             blueButton.addActionListener(actHandler);
             blackButton.addActionListener(actHandler);
         }
-    }//class ColorButtons
+    }//class ColorButtonPanel
 
+    protected class DrawPaintPanel extends JPanel {
+
+        DrawPaintPanel(){
+            this.setBackground(Color.white);
+
+            this.addMouseListener(new MouseHandler());
+            this.addMouseMotionListener(new MouseHandler());
+        }
+
+        @Override
+        public void paint(Graphics g) {
+            if (boardObjectList != null) {
+                for (PaintObject obj : boardObjectList) {
+                    obj.display(g);
+                }
+            }
+            if (preview != null) {
+                preview.display(g);
+            }
+        }//paint
+
+        // Mouse Handler for draw paint panel
+        class MouseHandler extends MouseAdapter {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                MyBoard.this.press = true;
+                MyBoard.this.currentX = e.getX();
+                MyBoard.this.currentY = e.getY();
+            }//mouse pressed
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                preview = null;
+                MyBoard.this.press = false;
+                if (MyBoard.this.type.equals("Line")) {
+                    boardObjectList.add(new Line(currentX, currentY, e.getX(), e.getY(), color));
+                } else if (MyBoard.this.type.equals("Circle")) {
+                    boardObjectList.add(new Circle(currentX, currentY, e.getX(), e.getY(), color));
+                } else if (MyBoard.this.type.equals("Rect")) {
+                    boardObjectList.add(new Rectangular(currentX, currentY, e.getX(), e.getY(), color));
+                } else if (MyBoard.this.type.equals("Triangle")) {
+                    boardObjectList.add(new Triangle(currentX, currentY, e.getX(), e.getY(), color));
+                }
+                repaint();
+            }//mouse released
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int newX = e.getX();
+                int newY = e.getY();
+                if (MyBoard.this.press == true) {
+                    if (type.equals("Brush")) {
+                        boardObjectList.add(new Brush(currentX, currentY, newX, newY, color));
+                        MyBoard.this.currentX = newX;
+                        MyBoard.this.currentY = newY;
+                    } else if (type.equals("Line")) {
+                        preview = new Line(currentX, currentY, newX, newY, color);
+                    } else if (type.equals("Circle")) {
+                        preview = new Circle(currentX, currentY, newX, newY, color);
+                    } else if (type.equals("Rect")) {
+                        preview = new Rectangular(currentX, currentY, newX, newY, color);
+                    } else if (type.equals("Triangle")) {
+                        preview = new Triangle(currentX, currentY, newX, newY, color);
+                    }
+                }
+                repaint();
+            }//mouse dragged
+        }//class MouseHandler
+    }
 
     // Handler
     class ActionHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == ubtn.exitButton) {
+            if (e.getSource() == ubtnp.exitButton) {
                 System.exit(1);
-            } else if (e.getSource() == dbtn.brushButton) {
+            } else if (e.getSource() == dbtnp.brushButton) {
                 MyBoard.this.type = "Brush";
-            } else if (e.getSource() == dbtn.lineButton) {
+            } else if (e.getSource() == dbtnp.lineButton) {
                 MyBoard.this.type = "Line";
-            } else if (e.getSource() == dbtn.circleButton) {
+            } else if (e.getSource() == dbtnp.circleButton) {
                 MyBoard.this.type = "Circle";
-            } else if (e.getSource() == dbtn.rectangularButton) {
+            } else if (e.getSource() == dbtnp.rectangularButton) {
                 MyBoard.this.type = "Rect";
-            } else if (e.getSource() == dbtn.triangleButton) {
+            } else if (e.getSource() == dbtnp.triangleButton) {
                 MyBoard.this.type = "Triangle";
-            } else if (e.getSource() == dbtn.redoButton) {
+            } else if (e.getSource() == dbtnp.redoButton) {
                MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
                 repaint();
-            } else if (e.getSource() == dbtn.resetButton) {
+            } else if (e.getSource() == dbtnp.resetButton) {
                 MyBoard.this.boardObjectList.clear();
                 repaint();
-            } else if (e.getSource() == cbtn.redButton) {
+            } else if (e.getSource() == cbtnp.redButton) {
                 MyBoard.this.color = Color.red;
-            } else if (e.getSource() == cbtn.blueButton) {
+            } else if (e.getSource() == cbtnp.blueButton) {
                 MyBoard.this.color = Color.blue;
-            } else if (e.getSource() == cbtn.blackButton) {
+            } else if (e.getSource() == cbtnp.blackButton) {
                 MyBoard.this.color = Color.black;
             }
             refreshTypeColorLabel();
         }
     }//class ActionHandler
-
-    class MouseHandler extends MouseAdapter {
-        @Override
-        public void mousePressed(MouseEvent e) {
-            MyBoard.this.press = true;
-            MyBoard.this.currentX = e.getX();
-            MyBoard.this.currentY = e.getY();
-        }//mouse pressed
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            preview = null;
-            MyBoard.this.press = false;
-            if (MyBoard.this.type.equals("Line")) {
-                boardObjectList.add(new Line(currentX, currentY, e.getX(), e.getY(), color));
-            } else if (MyBoard.this.type.equals("Circle")) {
-                boardObjectList.add(new Circle(currentX, currentY, e.getX(), e.getY(), color));
-            } else if (MyBoard.this.type.equals("Rect")) {
-                boardObjectList.add(new Rectangular(currentX, currentY, e.getX(), e.getY(), color));
-            } else if (MyBoard.this.type.equals("Triangle")) {
-                boardObjectList.add(new Triangle(currentX, currentY, e.getX(), e.getY(), color));
-            }
-            repaint();
-        }//mouse released
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            int newX = e.getX();
-            int newY = e.getY();
-            if (MyBoard.this.press == true) {
-                if (type.equals("Brush")) {
-                    boardObjectList.add(new Brush(currentX, currentY, newX, newY, color));
-                    MyBoard.this.currentX = newX;
-                    MyBoard.this.currentY = newY;
-                } else if (type.equals("Line")) {
-                    preview = new Line(currentX, currentY, newX, newY, color);
-                } else if (type.equals("Circle")) {
-                    preview = new Circle(currentX, currentY, newX, newY, color);
-                } else if (type.equals("Rect")) {
-                    preview = new Rectangular(currentX, currentY, newX, newY, color);
-                } else if (type.equals("Triangle")) {
-                    preview = new Triangle(currentX, currentY, newX, newY, color);
-                }
-            }
-            repaint();
-        }//mouse dragged
-    }//class MouseHandler
-
-
-
-
-
-
-
-
-
 
 }//myboard
