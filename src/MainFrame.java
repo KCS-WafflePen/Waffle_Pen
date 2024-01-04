@@ -10,8 +10,6 @@ public class MainFrame extends Frame {
 
     public MainFrame(){
 
-
-
         this.add(mp);
 
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
