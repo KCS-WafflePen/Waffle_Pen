@@ -14,12 +14,16 @@ public class MyNote implements ActionListener {
     MyNote() {
         // JFrame 및 각종 GUI 구성 요소 초기화
         f = new JFrame("자바 메모장");
+
+        // 각 메뉴 및 메뉴 아이템 초기화
         cut = new JMenuItem("잘라내기");
         copy = new JMenuItem("복사");
         paste = new JMenuItem("붙이기");
         selectAll = new JMenuItem("모두 선택");
         i_save = new JMenuItem("저장");
         i_load = new JMenuItem("열기");
+
+        // 메뉴 아이템에 액션 리스너 등록
         cut.addActionListener(this);
         copy.addActionListener(this);
         paste.addActionListener(this);
@@ -27,11 +31,9 @@ public class MyNote implements ActionListener {
         i_save.addActionListener(this);
         i_load.addActionListener(this);
 
-        mb = new JMenuBar();
+        // 각 메뉴에 아이템 추가
         file = new JMenu("파일");
         edit = new JMenu("편집");
-
-        // 각 메뉴에 아이템 추가
         edit.add(cut);
         edit.add(copy);
         edit.add(paste);
@@ -39,18 +41,25 @@ public class MyNote implements ActionListener {
         file.add(i_save);
         file.add(i_load);
 
+        // 메뉴바에 메뉴 추가
+        mb = new JMenuBar();
         mb.add(file);
         mb.add(edit);
 
-        // 텍스트 에어리어 및 메뉴바를 프레임에 추가
+        // 텍스트 에어리어 초기화
         ta = new JTextArea();
-        ta.setBounds(5, 5, 360, 320);
-        f.add(mb);
-        f.add(ta);
-        f.setJMenuBar(mb);
+        JScrollPane scrollPane = new JScrollPane(ta);
+
+        // 패널 초기화 및 컴포넌트 추가
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(mb, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        // JFrame에 패널 추가
+        f.add(panel);
 
         // 기타 GUI 설정
-        f.setLayout(null);
         f.setSize(400, 400);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
