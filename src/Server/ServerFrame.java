@@ -1,7 +1,7 @@
 package Server;
 
-import frame.MyBoard;
 import frame.MyFrame;
+import frame.board.MyBoard;
 
 import javax.swing.*;
 

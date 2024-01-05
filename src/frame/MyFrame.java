@@ -1,5 +1,7 @@
 package frame;
 
+import frame.board.MyBoard;
+
 import javax.swing.*;
 
 public class MyFrame extends JFrame {

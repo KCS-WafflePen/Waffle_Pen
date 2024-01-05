@@ -1,4 +1,6 @@
-package frame;
+package frame.board;
+
+import frame.MyFrame;
 
 import javax.swing.*;
 import java.awt.*;
