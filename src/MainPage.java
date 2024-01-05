@@ -106,7 +106,7 @@ public class MainPage extends JPanel {
                 // 강의방 개설 버튼 클릭 시 동작 처리
             } else if (e.getSource() == ep.StudentButton) {
                 System.out.println("ok");
-
+                new MyNote();
             }
         }
     }
