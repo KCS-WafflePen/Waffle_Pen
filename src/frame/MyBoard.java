@@ -1,4 +1,6 @@
-package board;
+package frame;
+
+import frame.board.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,7 +27,7 @@ public class MyBoard extends JPanel {
     private final ActionHandler actHandler = new ActionHandler();
 
     // Panel
-    private final UtilButtons ubtnp = new UtilButtons();
+    private final UtilButtonPanel ubtnp = new UtilButtonPanel();
     private final DrawButtonPanel dbtnp = new DrawButtonPanel();
     private final ColorButtonPanel cbtnp = new ColorButtonPanel();
     private final DrawPaintPanel dpp = new DrawPaintPanel();
@@ -63,13 +65,13 @@ public class MyBoard extends JPanel {
 
     //--inner
     //Button
-    protected class UtilButtons extends JPanel {
+    protected class UtilButtonPanel extends JPanel {
         // Button variable
         JButton saveButton = new JButton("저장");
         JButton exitButton = new JButton("나가기");
 
         // Constructor
-        UtilButtons() {
+        UtilButtonPanel() {
             addEvent();
 
             this.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -289,6 +291,7 @@ public class MyBoard extends JPanel {
                 } else if (MyBoard.this.type.equals("Triangle")) {
                     boardObjectList.add(new Triangle(currentX, currentY, e.getX(), e.getY(), color));
                 }
+
                 repaint();
             }//mouse released
 
@@ -383,5 +386,19 @@ public class MyBoard extends JPanel {
             refreshTypeColorLabel();
         }
     }//class ActionHandler
+
+    public BufferedImage changeToImage() {
+        BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+
+        // 배경을 흰색으로 설정
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
+
+        // 그림을 그린다
+        super.paintComponent(g2d);
+
+        return image;
+    } // change GUI drawing to buffered Image
 
 }//myboard
