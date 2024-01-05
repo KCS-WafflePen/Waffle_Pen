@@ -1,5 +1,3 @@
-import board.MainPage;
-
 import java.awt.*;
 
 public class MainFrame extends Frame {

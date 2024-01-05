@@ -1,4 +1,4 @@
-package board;
+import board.EnterCode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +9,9 @@ import java.io.IOException;
 public class MainPage extends JPanel {
     private final EnterPanel ep = new EnterPanel();
     private final CodePanel cp = new CodePanel();
-
     private final NewRoom nr = new NewRoom();
+
+    MyFrame mf = new MyFrame();
 
     public MainPage() {
         try {
@@ -68,17 +69,16 @@ public class MainPage extends JPanel {
             this.setLayout(new FlowLayout(FlowLayout.RIGHT));
             this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 80));
 
-            // 처음에는 강의방 개설 버튼을 숨김
+            enterButton.addActionListener(new ActionHandler());
+
+            // 버튼 숨김
             enterButton.setVisible(false);
 
             this.add(enterButton);
         }
     }
 
-
-
-    // Handler
-// Handler
+    //Handler
     class ActionHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -90,15 +90,17 @@ public class MainPage extends JPanel {
 
                 // 강의방 개설 버튼을 보이도록 설정
                 nr.enterButton.setVisible(true);
+
+            } if (e.getSource() == nr.enterButton) {
+                System.out.println("ok");
+                mf.setVisible(true);
+                // 강의방 개설 버튼 클릭 시 동작 처리
+                // 예를 들어, 강의방 개설 창을 열거나 다른 동작 수행
             } else if (e.getSource() == ep.StudentButton) {
                 // Handle join button action
-            } else if (e.getSource() == nr.enterButton) {
-
             }
         }
     }
-
-
 
 }
 
