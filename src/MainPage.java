@@ -50,7 +50,7 @@ public class MainPage extends JPanel {
     }
 
     private class CodePanel extends JPanel {
-        JTextArea InviteCode = new JTextArea("초대코드 생성");
+        JTextArea InviteCode = new JTextArea("====== 초대코드 ======");
 
         public void setInviteCodeText(String text) {
             InviteCode.setText(text);
@@ -62,18 +62,22 @@ public class MainPage extends JPanel {
     }
 
     private class NewRoom extends JPanel {
-        JButton enterButton = new JButton("강의방 개설");
+        JButton createButton = new JButton("강의방 개설");
+        JButton enterButton = new JButton("강의방 입장");
 
         NewRoom() {
-            enterButton.setSize(100, 50);
+            createButton.setSize(100, 50);
             this.setLayout(new FlowLayout(FlowLayout.RIGHT));
             this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 80));
 
+            createButton.addActionListener(new ActionHandler());
             enterButton.addActionListener(new ActionHandler());
 
             // 버튼 숨김
+            createButton.setVisible(false);
             enterButton.setVisible(false);
 
+            this.add(createButton);
             this.add(enterButton);
         }
     }
@@ -87,21 +91,24 @@ public class MainPage extends JPanel {
                 ec.setPwdLength(8);
                 String inviteCode = ec.excuteGenerate();
                 cp.setInviteCodeText(inviteCode);
+                System.out.println(inviteCode);
 
                 // 강의방 개설 버튼을 보이도록 설정
-                nr.enterButton.setVisible(true);
+                nr.createButton.setVisible(true);
 
-            } if (e.getSource() == nr.enterButton) {
+                // 강의방 개설 버튼 중복 클릭 방지 (비활성화)
+                ep.TeacherButton.setEnabled(false);
+                ep.StudentButton.setEnabled(false);
+
+            } if (e.getSource() == nr.createButton) {
                 System.out.println("ok");
                 mf.setVisible(true);
                 // 강의방 개설 버튼 클릭 시 동작 처리
-                // 예를 들어, 강의방 개설 창을 열거나 다른 동작 수행
             } else if (e.getSource() == ep.StudentButton) {
-                // Handle join button action
+                System.out.println("ok");
+
             }
         }
     }
 
 }
-
-
