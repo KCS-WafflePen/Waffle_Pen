@@ -10,7 +10,6 @@ import java.net.Socket;
 public class Client {
     String serverAddress = "localhost";
     int serverPort = 8000;
-    //ClientFrame frame;
     JFrame frame;
     JLabel imgLabel;
     private Thread clientThread;
@@ -83,7 +82,6 @@ public class Client {
                 }
 
                 stopClient();
-
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {

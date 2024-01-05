@@ -37,17 +37,10 @@ public class Server {
 
     private static void sendPaintingImage(Socket socket) throws AWTException {
         try {
-            Point frameLocation = frame.getLocation();
-            Dimension frameSize = frame.getSize();
-
-            Robot robot = new Robot();
-            Rectangle screenRect = new Rectangle(frameLocation.x, frameLocation.y, frameSize.width, frameSize.height);
-
-            BufferedImage screenCapture = robot.createScreenCapture(screenRect);
-
+            BufferedImage captureImage = frame.mb.getDrawPaintPanelImage();
 
             BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
-            ImageIO.write(screenCapture, "png", bos);
+            ImageIO.write(captureImage, "png", bos);
             bos.flush();
         } catch (IOException e) {
             e.printStackTrace();

@@ -21,7 +21,6 @@ public class MyBoard extends JPanel {
     private Color color = Color.BLACK;
     private Boolean press = false;
     private PaintObject preview;
-    private List<PaintObject> boardObjectList = new ArrayList<>();
     private final ActionHandler actHandler = new ActionHandler();
 
     // Panel
@@ -88,7 +87,6 @@ public class MyBoard extends JPanel {
     }//class UtilButton
 
     protected class DrawButtonPanel extends JPanel {
-
         //저장 이미지
         private BufferedImage canvas;
 
@@ -160,7 +158,6 @@ public class MyBoard extends JPanel {
             // 저장
             ImageIO.write(image, "png", file);
         }
-
 
         //Method
         private void addEvent() {
@@ -243,6 +240,7 @@ public class MyBoard extends JPanel {
     }//class ColorButtonPanel
 
     protected class DrawPaintPanel extends JPanel {
+        List<PaintObject> boardObjectList = new ArrayList<>();
 
         DrawPaintPanel(){
             this.setBackground(Color.white);
@@ -359,10 +357,10 @@ public class MyBoard extends JPanel {
             } else if (e.getSource() == dbtnp.triangleButton) {
                 MyBoard.this.type = "Triangle";
             } else if (e.getSource() == dbtnp.redoButton) {
-               MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
+               dpp.boardObjectList.remove(dpp.boardObjectList.size() - 1);
                 repaint();
             } else if (e.getSource() == dbtnp.resetButton) {
-                MyBoard.this.boardObjectList.clear();
+                dpp.boardObjectList.clear();
                 repaint();
             } else if (e.getSource() == cbtnp.redButton) {
                 MyBoard.this.color = Color.red;
@@ -385,18 +383,13 @@ public class MyBoard extends JPanel {
         }
     }//class ActionHandler
 
-    public BufferedImage changeToImage() {
-        BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+    public BufferedImage getDrawPaintPanelImage() {
+        BufferedImage image = new BufferedImage(dpp.getWidth(), dpp.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
-
-        // 배경을 흰색으로 설정
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
-
-        // 그림을 그린다
-        super.paintComponent(g2d);
+        dpp.paint(g2d);
+        g2d.dispose();
 
         return image;
-    } // change GUI drawing to buffered Image
+    }
 
 }//myboard
