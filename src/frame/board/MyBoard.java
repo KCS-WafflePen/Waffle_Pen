@@ -263,6 +263,7 @@ public class MyBoard extends JPanel {
             // 선 두께 설정 (5로 설정, 필요에 따라 조절 가능)
             g2d.setStroke(new BasicStroke(3));
 
+            if(bgImage!= null) paintComponent(g2d);
             if (boardObjectList != null) {
                 for (PaintObject obj : boardObjectList) {
                     obj.display(g2d);
@@ -271,8 +272,6 @@ public class MyBoard extends JPanel {
             if (preview != null) {
                 preview.display(g2d);
             }
-
-            if(bgImage!= null) paintComponent(g2d);
         }//paint
 
         @Override
