@@ -35,6 +35,7 @@ public class Server {
         }
     }//startServer
 
+    //send Draw Painting Panel Image to client
     private static void sendPaintingImage(Socket socket) throws AWTException {
         try {
             BufferedImage captureImage = frame.mb.getDrawPaintPanelImage();
@@ -45,7 +46,7 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }//sendPaintingImage
 
 
     //--inner

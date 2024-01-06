@@ -44,9 +44,9 @@ public class MyBoard extends JPanel {
     //Method
     private void makeUI() throws IOException {
         typeLabel.setBackground(this.color);
-        typeLabel.setForeground(Color.white);
+        typeLabel.setForeground(Color.WHITE);
 
-        this.setBackground(Color.white);
+        this.setBackground(Color.WHITE);
         this.setLayout(new BorderLayout());
 
         this.add("South", ubtnp);
@@ -240,12 +240,20 @@ public class MyBoard extends JPanel {
     }//class ColorButtonPanel
 
     protected class DrawPaintPanel extends JPanel {
+        private BufferedImage bgImage = null;
         List<PaintObject> boardObjectList = new ArrayList<>();
 
         DrawPaintPanel(){
-            this.setBackground(Color.white);
+            this.setBackground(Color.WHITE);
             this.addMouseListener(new MouseHandler());
             this.addMouseMotionListener(new MouseHandler());
+        }
+
+        // Method
+        //
+        public void setBackgroundImage (BufferedImage image) {
+            this.bgImage = image;
+            repaint();
         }
 
         @Override
@@ -263,7 +271,19 @@ public class MyBoard extends JPanel {
             if (preview != null) {
                 preview.display(g2d);
             }
+
+            if(bgImage!= null) paintComponent(g2d);
         }//paint
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            if (bgImage != null) {
+                // Draw the image as the background
+                g.drawImage(bgImage, 0, 0, this);
+            }
+        }//paintComponent
 
         // Mouse Handler for draw paint panel
         class MouseHandler extends MouseAdapter {
@@ -390,6 +410,10 @@ public class MyBoard extends JPanel {
         g2d.dispose();
 
         return image;
+    }
+
+    public void setDrawPaintPanelImage(BufferedImage image) {
+        dpp.setBackgroundImage(image);
     }
 
 }//myboard

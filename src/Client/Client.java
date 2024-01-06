@@ -10,8 +10,8 @@ import java.net.Socket;
 public class Client {
     String serverAddress = "localhost";
     int serverPort = 8000;
-    JFrame frame;
-    JLabel imgLabel;
+    ClientFrame frame;
+
     private Thread clientThread;
 
     public static void main(String[] args) {
@@ -20,11 +20,9 @@ public class Client {
 
     //Construct
     public void startClient() {
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame = new ClientFrame();
 
-        imgLabel = new JLabel();
-        frame.getContentPane().add(imgLabel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
@@ -45,9 +43,7 @@ public class Client {
     }
 
     private void updateImageLabel(BufferedImage image) {
-        ImageIcon icon = new ImageIcon(image);
-        imgLabel.setIcon(icon);
-        imgLabel.repaint();
+        this.frame.mb.setDrawPaintPanelImage(image);
     }
 
     public void stopClient() {
@@ -74,8 +70,6 @@ public class Client {
 
                 while (socket.isConnected()) {
                     BufferedImage receivedImage = imageReceive(socket);
-                    System.out.println(receivedImage);
-
                     if (receivedImage != null) {
                         SwingUtilities.invokeLater(() -> updateImageLabel(receivedImage));
                     }
@@ -90,3 +84,4 @@ public class Client {
         }
     }
 }
+
