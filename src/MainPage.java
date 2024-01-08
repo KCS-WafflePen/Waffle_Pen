@@ -1,5 +1,3 @@
-import board.EnterCode;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,11 +5,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class MainPage extends JPanel {
+
     private final EnterPanel ep = new EnterPanel();
     private final CodePanel cp = new CodePanel();
     private final NewRoom nr = new NewRoom();
 
     MyFrame mf = new MyFrame();
+    DataMan dataMan = new DataMan();
 
     public MainPage() {
         try {
@@ -24,22 +24,28 @@ public class MainPage extends JPanel {
     private void makeUI() throws IOException {
         this.setLayout(new BorderLayout());
         this.add("North", ep);
-        this.add("Center",cp);
-        this.add("South",nr);
-        //this.add("South",sp);
+        this.add("Center", cp);
+        this.add("South", nr);
     }
 
     private class EnterPanel extends JPanel {
-        JButton TeacherButton = new JButton("강사");
-        JButton StudentButton = new JButton("학생");
+
+        ImageIcon teacher = new ImageIcon("./ButtonImg/teacher04.png");
+        ImageIcon student = new ImageIcon("./ButtonImg/student04.png");
+        JButton TeacherButton = new JButton(teacher);
+        JButton StudentButton = new JButton(student);
 
         EnterPanel() {
             addEvent();
 
-            TeacherButton.setSize(100, 50);
-            this.setLayout(new FlowLayout(FlowLayout.RIGHT));
-            this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 80));
+            this.setLayout(new FlowLayout(FlowLayout.CENTER));  // 변경: 중앙 정렬
+            this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+
+            TeacherButton.setPreferredSize(new Dimension(100,80));
+            StudentButton.setPreferredSize(new Dimension(100,80));
+
             this.add(TeacherButton);
+            this.add(new JPanel());
             this.add(StudentButton);
         }
 
@@ -50,39 +56,36 @@ public class MainPage extends JPanel {
     }
 
     private class CodePanel extends JPanel {
-        JTextArea InviteCode = new JTextArea("====== 초대코드 ======");
+        JTextField InviteCode = new JTextField();
 
-        public void setInviteCodeText(String text) {
-            InviteCode.setText(text);
+        CodePanel() {
+            this.setLayout(new FlowLayout(FlowLayout.CENTER));  // 변경: 중앙 정렬
+            this.add(InviteCode);
+            InviteCode.setText("초대코드 생성");
+            InviteCode.setEnabled(false);
         }
 
-        CodePanel(){
-            this.add(InviteCode);
+        public void setInviteCode(String code) {
+            InviteCode.setText(code);
         }
     }
 
     private class NewRoom extends JPanel {
         JButton createButton = new JButton("강의방 개설");
-        JButton enterButton = new JButton("강의방 입장");
 
         NewRoom() {
             createButton.setSize(100, 50);
-            this.setLayout(new FlowLayout(FlowLayout.RIGHT));
-            this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 80));
+            this.setLayout(new FlowLayout(FlowLayout.CENTER));  // 변경: 중앙 정렬
+            this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 
             createButton.addActionListener(new ActionHandler());
-            enterButton.addActionListener(new ActionHandler());
 
-            // 버튼 숨김
             createButton.setVisible(false);
-            enterButton.setVisible(false);
 
             this.add(createButton);
-            this.add(enterButton);
         }
     }
 
-    //Handler
     class ActionHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -90,24 +93,33 @@ public class MainPage extends JPanel {
                 EnterCode ec = new EnterCode();
                 ec.setPwdLength(8);
                 String inviteCode = ec.excuteGenerate();
-                cp.setInviteCodeText(inviteCode);
-                System.out.println(inviteCode);
 
-                // 강의방 개설 버튼을 보이도록 설정
+                cp.setInviteCode(inviteCode);
+                cp.InviteCode.setEnabled(true);
+
                 nr.createButton.setVisible(true);
 
-                // 강의방 개설 버튼 중복 클릭 방지 (비활성화)
                 ep.TeacherButton.setEnabled(false);
                 ep.StudentButton.setEnabled(false);
-
-            } if (e.getSource() == nr.createButton) {
-                System.out.println("ok");
+            } else if (e.getSource() == nr.createButton) {
+                // 초대 코드를 데이터베이스에 저장
+                dataMan.saveInviteCodeToDatabase(cp.InviteCode.getText(), "localhost", 8000);
                 mf.setVisible(true);
-                // 강의방 개설 버튼 클릭 시 동작 처리
             } else if (e.getSource() == ep.StudentButton) {
-                System.out.println("ok");
+                ep.TeacherButton.setEnabled(false);
+                String studentInputCode = JOptionPane.showInputDialog("코드를 입력하세요:");
+
+                cp.setInviteCode(studentInputCode);
+
+                System.out.println(studentInputCode);
+
+                // 데이터베이스에서 초대 코드 확인
+                if (dataMan.isInviteCodeValid(studentInputCode)) {
+                    mf.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "초대코드를 확인하세요");
+                }
             }
         }
     }
-
 }

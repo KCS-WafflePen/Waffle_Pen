@@ -67,6 +67,7 @@ public class MyBoard extends JPanel {
         // Button variable
         JButton saveButton = new JButton("저장");
         JButton exitButton = new JButton("나가기");
+        JLabel connect = new JLabel("강사 접속 중");
 
         // Constructor
         UtilButtons() {
@@ -75,6 +76,7 @@ public class MyBoard extends JPanel {
             this.setLayout(new FlowLayout(FlowLayout.RIGHT));
             this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 80));
 
+            this.add(connect);
             this.add(saveButton);
             this.add(exitButton);
         }//Constructor UtilButtons()
@@ -109,7 +111,6 @@ public class MyBoard extends JPanel {
         JButton triangleButton = new JButton(triangle);
 
         JButton redoButton = new JButton(back);
-
         JButton resetButton = new JButton(reset);
 
         // Constructor
@@ -358,7 +359,7 @@ public class MyBoard extends JPanel {
             } else if (e.getSource() == dbtnp.triangleButton) {
                 MyBoard.this.type = "Triangle";
             } else if (e.getSource() == dbtnp.redoButton) {
-               MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
+                MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
                 repaint();
             } else if (e.getSource() == dbtnp.resetButton) {
                 MyBoard.this.boardObjectList.clear();

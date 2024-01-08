@@ -1,5 +1,3 @@
-package board;
-
 import java.util.Random;
 
 public class EnterCode {
