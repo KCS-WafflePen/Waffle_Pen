@@ -1,4 +1,6 @@
-package Server;
+package network;
+
+import frame.ServerFrame;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package Client;
+package network;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
