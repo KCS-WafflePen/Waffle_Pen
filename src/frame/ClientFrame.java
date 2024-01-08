@@ -4,11 +4,11 @@ import frame.board.MyBoard;
 
 import javax.swing.*;
 
-public class ClientFrame extends MyFrame{
-    MyBoard mb = new MyBoard();
+public class ClientFrame extends JFrame implements MyFrame{
+    public MyBoard mb;
 
     public ClientFrame(){
-        super();
+        mb = new MyBoard();
         this.add(mb);
 
         this.setSize(MyFrame.FRAME_WIDTH,MyFrame.FRAME_HEIGHT);

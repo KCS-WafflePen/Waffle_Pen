@@ -1,5 +1,7 @@
 package network;
 
+import frame.ClientFrame;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
