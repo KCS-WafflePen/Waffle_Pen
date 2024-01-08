@@ -37,7 +37,7 @@ public class Memo extends JPanel implements ActionListener {
 
         mb = new JMenuBar();
         mb.add(file);
-        mb.add(edit);
+//        mb.add(edit);
 
         ta = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(ta);
@@ -62,12 +62,5 @@ public class Memo extends JPanel implements ActionListener {
             ta.selectAll();
 
         // 이하 저장 및 열기 기능 주석 처리
-    }
-
-    public static void main(String[] args) {
-        JFrame jFrame = new JFrame();
-        jFrame.setSize(400, 400);
-        jFrame.add(new MyNote());
-        jFrame.setVisible(true);
     }
 }

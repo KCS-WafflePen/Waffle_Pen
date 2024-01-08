@@ -18,8 +18,10 @@ public class MyNote extends JPanel {
 
     public static void main(String[] args) {
         JFrame jFrame = new JFrame();
-        jFrame.setSize(800, 900);
-        jFrame.setMinimumSize(new Dimension(800, 750));
+        Dimension dimension = new Dimension(800, 800);
+        jFrame.setSize(dimension);
+        jFrame.setMinimumSize(dimension);
+        jFrame.setMaximumSize(dimension);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.add(new MyNote());
         jFrame.setVisible(true);
