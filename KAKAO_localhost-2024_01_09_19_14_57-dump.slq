@@ -1,0 +1,51 @@
+-- MySQL dump 10.13  Distrib 8.2.0, for macos13.5 (arm64)
+--
+-- Host: 127.0.0.1    Database: KAKAO
+-- ------------------------------------------------------
+-- Server version	8.2.0
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `KCS`
+--
+
+DROP TABLE IF EXISTS `KCS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `KCS` (
+  `codeID` char(8) DEFAULT NULL,
+  `ip` char(20) DEFAULT NULL,
+  `port` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `KCS`
+--
+
+LOCK TABLES `KCS` WRITE;
+/*!40000 ALTER TABLE `KCS` DISABLE KEYS */;
+INSERT INTO `KCS` VALUES ('(873@(1w','199.98.00.999',33),('0ih1KnDW','199.98.00.999',33),('UJMon8Rq','199.98.00.999',33),('54^rtGTP','199.98.00.999',33),('o6%4d1x!','localhost',8000),('^(zY8BP3','localhost',8000),('8hJuI^p9','localhost',8000),('0ffkP7X9','localhost',8000),('d5o$%Crf','localhost',8000),('6)8UWcV@','localhost',8000),('s1ngoV0H','localhost',8000),('&sR0fGsl','localhost',8000),('c7$gYgev','localhost',8000),('p3)VYNpX','localhost',8000),('V7zD!8MT','localhost',8000),('515z@uH1','localhost',8000),('f36qGF95','localhost',8000),('OfjRnG^C','localhost',8000),('8D3pB@NI','localhost',8000),('WEjV^vv^','localhost',8000),('2Vrl007Y','localhost',8000),('QqO762jM','localhost',8000),('YS88oFxC','localhost',8000),('f5&2RSnS','localhost',8000),('G(wwNVcf','localhost',8000),('V2BULUTk','localhost',8000),('J9Zs5LD%','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('y7@@^SfD','localhost',8000),('GqavlWGH','localhost',8000),('AIZ8NFv^','localhost',8000),('7XsA6$&H','localhost',8000),('^TurJpSh','localhost',8000),('0#hT)95C','localhost',8000),('mCl7SW)4','localhost',8000),('q0PR0BBX','localhost',8000),('vs*iWg81','localhost',8000),('rRpqCv%Q','localhost',8000),('Mjt!V8UA','localhost',8000),('s7)UAr9V','localhost',8000),('!fSF7CbU','localhost',8000),('&u0OCceS','localhost',8000),('bEolnt96','localhost',8000),('j&TmlCzF','localhost',8000),('PPufnNGr','localhost',8000),('RzD^Ywsf','localhost',8000),('ut4bTKRx','localhost',8000),('j^STM)53','localhost',8000),('9s1W98C2','localhost',8000);
+/*!40000 ALTER TABLE `KCS` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-01-09 19:14:57
