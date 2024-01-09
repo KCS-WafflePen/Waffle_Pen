@@ -332,30 +332,7 @@ public class MyBoard extends JPanel {
             if (e.getSource() == ubtnp.exitButton) {
                 System.exit(1);
             } else if (e.getSource() == ubtnp.saveButton) {
-                JFileChooser fileChooser = new JFileChooser();
-                int result = fileChooser.showSaveDialog(null);
-
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File fileToSave = fileChooser.getSelectedFile();
-                    String filePath = fileToSave.getAbsolutePath();
-
-                    // Check if the file has a .png extension, if not, add it
-                    if (!filePath.toLowerCase().endsWith(".png")) {
-                        fileToSave = new File(filePath + ".png");
-                    }
-
-                    try {
-                        BufferedImage image = new BufferedImage(dpp.getWidth(), dpp.getHeight(), BufferedImage.TYPE_INT_ARGB);
-                        Graphics2D g2d = image.createGraphics();
-                        dpp.paint(g2d);
-                        g2d.dispose();
-
-                        // Save the image
-                        ImageIO.write(image, "PNG", fileToSave);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                saveImage();
             } else if (e.getSource() == dbtnp.brushButton) {
                 MyBoard.this.type = "Brush";
             } else if (e.getSource() == dbtnp.lineButton) {
@@ -394,4 +371,30 @@ public class MyBoard extends JPanel {
     }//class ActionHandler
 
 
+    protected void saveImage() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            // Check if the file has a .png extension, if not, add it
+            if (!filePath.toLowerCase().endsWith(".png")) {
+                fileToSave = new File(filePath + ".png");
+            }
+
+            try {
+                BufferedImage image = new BufferedImage(dpp.getWidth(), dpp.getHeight(), BufferedImage.TYPE_INT_ARGB);
+                Graphics2D g2d = image.createGraphics();
+                dpp.paint(g2d);
+                g2d.dispose();
+
+                // Save the image
+                ImageIO.write(image, "PNG", fileToSave);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }//myboard
