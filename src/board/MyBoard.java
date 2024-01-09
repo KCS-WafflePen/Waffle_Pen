@@ -80,7 +80,7 @@ public class MyBoard extends JPanel {
 
             this.setLayout(new FlowLayout(FlowLayout.RIGHT));
             this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 80));
-            this.setSize(800, 50);
+            this.setPreferredSize(new Dimension(800, 50));
 
             this.add(saveButton);
             this.add(exitButton);
@@ -123,7 +123,7 @@ public class MyBoard extends JPanel {
         DrawButtonPanel() {
             addEvent();
 
-            this.setSize(800, 50);
+            this.setPreferredSize(new Dimension(800, 50));
 
             // Button design
             brushButton.setOpaque(false);

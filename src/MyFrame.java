@@ -22,7 +22,7 @@ public class MyFrame extends JFrame {
     public MyFrame(MyNote mn){
         this.add(mn);
 
-        this.setSize(FRAME_WIDTH, FRAME_HEIGHT+200);
+        this.setSize(FRAME_WIDTH, FRAME_HEIGHT + 200);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창을 통해서도 종료 가능
         this.setVisible(true);
     }

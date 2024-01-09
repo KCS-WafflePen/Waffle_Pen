@@ -15,9 +15,13 @@ public class MyNote extends MyBoard {
         this.setLayout(new BorderLayout());
 
         JPanel spanel = new JPanel(new BorderLayout());
-        spanel.add("North", txtp);
+        txtp.setPreferredSize(new Dimension(800, 200));
+        spanel.add("Center", txtp);
         spanel.add("South", getUtilButtonPanel());
-        spanel.setPreferredSize(new Dimension(800, 250));
+
+        this.add("North", getDrawButtonPanel());
+        this.add("East", getColorButtonPanel());
+        this.add("Center", getDrawPaintPanel());
 
         this.add("South", spanel);
         this.add("North", getDrawButtonPanel());
