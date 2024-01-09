@@ -22,10 +22,10 @@ public class MyBoard extends JPanel {
     private Boolean press = false;
     private PaintObject preview;
     private List<PaintObject> boardObjectList = new ArrayList<>();
-    private final ActionHandler actHandler = new ActionHandler();
+    private ActionHandler actHandler = new ActionHandler();
 
     // Panel
-    private final UtilButtons ubtnp = new UtilButtons();
+    private final UtilButtonPanel ubtnp = new UtilButtonPanel();
     private final DrawButtonPanel dbtnp = new DrawButtonPanel();
     private final ColorButtonPanel cbtnp = new ColorButtonPanel();
     private final DrawPaintPanel dpp = new DrawPaintPanel();
@@ -61,15 +61,21 @@ public class MyBoard extends JPanel {
         typeLabel.setText(type);
     }
 
+    // Getter
+    protected JPanel getUtilButtonPanel(){ return ubtnp; }
+    protected JPanel getDrawButtonPanel(){ return dbtnp; }
+    protected JPanel getColorButtonPanel(){ return cbtnp; }
+    protected JPanel getDrawPaintPanel(){ return dpp; }
+
     //--inner
     //Button
-    protected class UtilButtons extends JPanel {
+    protected class UtilButtonPanel extends JPanel {
         // Button variable
         JButton saveButton = new JButton("저장");
         JButton exitButton = new JButton("나가기");
 
         // Constructor
-        UtilButtons() {
+        UtilButtonPanel() {
             addEvent();
 
             this.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -358,7 +364,7 @@ public class MyBoard extends JPanel {
             } else if (e.getSource() == dbtnp.triangleButton) {
                 MyBoard.this.type = "Triangle";
             } else if (e.getSource() == dbtnp.redoButton) {
-               MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
+                MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
                 repaint();
             } else if (e.getSource() == dbtnp.resetButton) {
                 MyBoard.this.boardObjectList.clear();
