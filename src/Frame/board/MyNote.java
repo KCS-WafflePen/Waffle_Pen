@@ -1,4 +1,4 @@
-package board;
+package Frame.board;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

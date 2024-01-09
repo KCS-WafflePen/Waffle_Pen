@@ -1,4 +1,4 @@
-package board;
+package Frame.board;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,7 +21,6 @@ public class MyBoard extends JPanel {
     private Color color = Color.BLACK;
     private Boolean press = false;
     private PaintObject preview;
-    private List<PaintObject> boardObjectList = new ArrayList<>();
     private ActionHandler actHandler = new ActionHandler();
 
     // Panel
@@ -253,10 +252,18 @@ public class MyBoard extends JPanel {
 
     protected class DrawPaintPanel extends JPanel {
 
+        private BufferedImage bgImage = null;
+        List<PaintObject> boardObjectList = new ArrayList<>();
+
         DrawPaintPanel(){
             this.setBackground(Color.white);
             this.addMouseListener(new MouseHandler());
             this.addMouseMotionListener(new MouseHandler());
+        }
+
+        public void setBackgroundImage (BufferedImage image) {
+            this.bgImage = image;
+            repaint();
         }
 
         @Override
@@ -344,10 +351,10 @@ public class MyBoard extends JPanel {
             } else if (e.getSource() == dbtnp.triangleButton) {
                 MyBoard.this.type = "Triangle";
             } else if (e.getSource() == dbtnp.redoButton) {
-               MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
+               dpp.boardObjectList.remove(dpp.boardObjectList.size() - 1);
                 repaint();
             } else if (e.getSource() == dbtnp.resetButton) {
-                MyBoard.this.boardObjectList.clear();
+                dpp.boardObjectList.clear();
                 repaint();
             } else if (e.getSource() == cbtnp.redButton) {
                 MyBoard.this.color = Color.red;
@@ -396,5 +403,18 @@ public class MyBoard extends JPanel {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public BufferedImage getDrawPaintPanelImage() {
+        BufferedImage image = new BufferedImage(dpp.getWidth(), dpp.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        dpp.paint(g2d);
+        g2d.dispose();
+
+        return image;
+    }
+
+    public void setDrawPaintPanelImage(BufferedImage image) {
+        dpp.setBackgroundImage(image);
     }
 }//myboard
