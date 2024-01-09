@@ -1,4 +1,4 @@
-import board.MyBoard;
+import board.MyNote;
 
 import javax.swing.*;
 
@@ -6,10 +6,12 @@ public class MyFrame extends JFrame {
     // Constants
     public static final int FRAME_WIDTH=800;
     public static final int FRAME_HEIGHT=600;
-    MyBoard mb = new MyBoard();
+    //MyBoard mb = new MyBoard();
+    MyNote mn = new MyNote();
+
 
     public MyFrame(){
-        this.add(mb);
+        this.add(mn);
 
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창을 통해서도 종료 가능
