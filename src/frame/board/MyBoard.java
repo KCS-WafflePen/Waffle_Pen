@@ -1,5 +1,6 @@
-package frame.board;
+package Frame.board;
 
+import Frame.DataMan;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class MyBoard extends JPanel {
     private Color color = Color.BLACK;
     private Boolean press = false;
     private PaintObject preview;
-    private final ActionHandler actHandler = new ActionHandler();
+    private ActionHandler actHandler = new ActionHandler();
 
     // Panel
     private final UtilButtonPanel ubtnp = new UtilButtonPanel();
@@ -44,9 +45,9 @@ public class MyBoard extends JPanel {
     //Method
     private void makeUI() throws IOException {
         typeLabel.setBackground(this.color);
-        typeLabel.setForeground(Color.WHITE);
+        typeLabel.setForeground(Color.white);
 
-        this.setBackground(Color.WHITE);
+        this.setBackground(Color.white);
         this.setLayout(new BorderLayout());
 
         this.add("South", ubtnp);
@@ -59,6 +60,12 @@ public class MyBoard extends JPanel {
         typeLabel.setBackground(color);
         typeLabel.setText(type);
     }
+
+    // Getter
+    protected JPanel getUtilButtonPanel(){ return ubtnp; }
+    protected JPanel getDrawButtonPanel(){ return dbtnp; }
+    protected JPanel getColorButtonPanel(){ return cbtnp; }
+    protected JPanel getDrawPaintPanel(){ return dpp; }
 
     //--inner
     //Button
@@ -73,6 +80,7 @@ public class MyBoard extends JPanel {
 
             this.setLayout(new FlowLayout(FlowLayout.RIGHT));
             this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 80));
+            this.setPreferredSize(new Dimension(800, 50));
 
             this.add(saveButton);
             this.add(exitButton);
@@ -87,6 +95,7 @@ public class MyBoard extends JPanel {
     }//class UtilButton
 
     protected class DrawButtonPanel extends JPanel {
+
         //저장 이미지
         private BufferedImage canvas;
 
@@ -113,6 +122,8 @@ public class MyBoard extends JPanel {
         // Constructor
         DrawButtonPanel() {
             addEvent();
+
+            this.setPreferredSize(new Dimension(800, 50));
 
             // Button design
             brushButton.setOpaque(false);
@@ -158,6 +169,7 @@ public class MyBoard extends JPanel {
             // 저장
             ImageIO.write(image, "png", file);
         }
+
 
         //Method
         private void addEvent() {
@@ -240,17 +252,16 @@ public class MyBoard extends JPanel {
     }//class ColorButtonPanel
 
     protected class DrawPaintPanel extends JPanel {
+
         private BufferedImage bgImage = null;
         List<PaintObject> boardObjectList = new ArrayList<>();
 
         DrawPaintPanel(){
-            this.setBackground(Color.WHITE);
+            this.setBackground(Color.white);
             this.addMouseListener(new MouseHandler());
             this.addMouseMotionListener(new MouseHandler());
         }
 
-        // Method
-        //
         public void setBackgroundImage (BufferedImage image) {
             this.bgImage = image;
             repaint();
@@ -263,7 +274,7 @@ public class MyBoard extends JPanel {
             // 선 두께 설정 (5로 설정, 필요에 따라 조절 가능)
             g2d.setStroke(new BasicStroke(3));
 
-            if(bgImage!= null) paintComponent(g2d);
+            if (bgImage != null) paintComponent(g2d);
             if (boardObjectList != null) {
                 for (PaintObject obj : boardObjectList) {
                     obj.display(g2d);
@@ -277,12 +288,8 @@ public class MyBoard extends JPanel {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-
-            if (bgImage != null) {
-                // Draw the image as the background
-                g.drawImage(bgImage, 0, 0, this);
-            }
-        }//paintComponent
+            g.drawImage(bgImage, 0, 0, this);
+        }
 
         // Mouse Handler for draw paint panel
         class MouseHandler extends MouseAdapter {
@@ -306,7 +313,6 @@ public class MyBoard extends JPanel {
                 } else if (MyBoard.this.type.equals("Triangle")) {
                     boardObjectList.add(new Triangle(currentX, currentY, e.getX(), e.getY(), color));
                 }
-
                 repaint();
             }//mouse released
 
@@ -341,30 +347,7 @@ public class MyBoard extends JPanel {
             if (e.getSource() == ubtnp.exitButton) {
                 System.exit(1);
             } else if (e.getSource() == ubtnp.saveButton) {
-                JFileChooser fileChooser = new JFileChooser();
-                int result = fileChooser.showSaveDialog(null);
-
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File fileToSave = fileChooser.getSelectedFile();
-                    String filePath = fileToSave.getAbsolutePath();
-
-                    // Check if the file has a .png extension, if not, add it
-                    if (!filePath.toLowerCase().endsWith(".png")) {
-                        fileToSave = new File(filePath + ".png");
-                    }
-
-                    try {
-                        BufferedImage image = new BufferedImage(dpp.getWidth(), dpp.getHeight(), BufferedImage.TYPE_INT_ARGB);
-                        Graphics2D g2d = image.createGraphics();
-                        dpp.paint(g2d);
-                        g2d.dispose();
-
-                        // Save the image
-                        ImageIO.write(image, "PNG", fileToSave);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                saveImage();
             } else if (e.getSource() == dbtnp.brushButton) {
                 MyBoard.this.type = "Brush";
             } else if (e.getSource() == dbtnp.lineButton) {
@@ -402,6 +385,38 @@ public class MyBoard extends JPanel {
         }
     }//class ActionHandler
 
+
+    protected void saveImage() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            // Check if the file has a .png extension, if not, add it
+            if (!filePath.toLowerCase().endsWith(".png")) {
+                fileToSave = new File(filePath + ".png");
+            }
+
+            try {
+                BufferedImage image = new BufferedImage(dpp.getWidth(), dpp.getHeight(), BufferedImage.TYPE_INT_ARGB);
+                Graphics2D g2d = image.createGraphics();
+
+                g2d.setColor(Color.WHITE);
+                g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
+
+                dpp.paint(g2d);
+                g2d.dispose();
+
+                // Save the image
+                ImageIO.write(image, "PNG", fileToSave);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     public BufferedImage getDrawPaintPanelImage() {
         BufferedImage image = new BufferedImage(dpp.getWidth(), dpp.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
@@ -414,5 +429,4 @@ public class MyBoard extends JPanel {
     public void setDrawPaintPanelImage(BufferedImage image) {
         dpp.setBackgroundImage(image);
     }
-
 }//myboard
