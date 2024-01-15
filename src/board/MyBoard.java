@@ -21,7 +21,6 @@ public class MyBoard extends JPanel {
     private Color color = Color.BLACK;
     private Boolean press = false;
     private PaintObject preview;
-    private List<PaintObject> boardObjectList = new ArrayList<>();
     private ActionHandler actHandler = new ActionHandler();
 
     // Panel
@@ -80,6 +79,7 @@ public class MyBoard extends JPanel {
 
             this.setLayout(new FlowLayout(FlowLayout.RIGHT));
             this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 80));
+            this.setPreferredSize(new Dimension(800, 50));
 
             this.add(saveButton);
             this.add(exitButton);
@@ -121,6 +121,8 @@ public class MyBoard extends JPanel {
         // Constructor
         DrawButtonPanel() {
             addEvent();
+
+            this.setPreferredSize(new Dimension(800, 50));
 
             // Button design
             brushButton.setOpaque(false);
@@ -250,10 +252,18 @@ public class MyBoard extends JPanel {
 
     protected class DrawPaintPanel extends JPanel {
 
+        private BufferedImage bgImage = null;
+        List<PaintObject> boardObjectList = new ArrayList<>();
+
         DrawPaintPanel(){
             this.setBackground(Color.white);
             this.addMouseListener(new MouseHandler());
             this.addMouseMotionListener(new MouseHandler());
+        }
+
+        public void setBackgroundImage (BufferedImage image) {
+            this.bgImage = image;
+            repaint();
         }
 
         @Override
@@ -263,6 +273,7 @@ public class MyBoard extends JPanel {
             // 선 두께 설정 (5로 설정, 필요에 따라 조절 가능)
             g2d.setStroke(new BasicStroke(3));
 
+            if (bgImage != null) paintComponent(g2d);
             if (boardObjectList != null) {
                 for (PaintObject obj : boardObjectList) {
                     obj.display(g2d);
@@ -272,6 +283,12 @@ public class MyBoard extends JPanel {
                 preview.display(g2d);
             }
         }//paint
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(bgImage, 0, 0, this);
+        }
 
         // Mouse Handler for draw paint panel
         class MouseHandler extends MouseAdapter {
@@ -329,30 +346,7 @@ public class MyBoard extends JPanel {
             if (e.getSource() == ubtnp.exitButton) {
                 System.exit(1);
             } else if (e.getSource() == ubtnp.saveButton) {
-                JFileChooser fileChooser = new JFileChooser();
-                int result = fileChooser.showSaveDialog(null);
-
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File fileToSave = fileChooser.getSelectedFile();
-                    String filePath = fileToSave.getAbsolutePath();
-
-                    // Check if the file has a .png extension, if not, add it
-                    if (!filePath.toLowerCase().endsWith(".png")) {
-                        fileToSave = new File(filePath + ".png");
-                    }
-
-                    try {
-                        BufferedImage image = new BufferedImage(dpp.getWidth(), dpp.getHeight(), BufferedImage.TYPE_INT_ARGB);
-                        Graphics2D g2d = image.createGraphics();
-                        dpp.paint(g2d);
-                        g2d.dispose();
-
-                        // Save the image
-                        ImageIO.write(image, "PNG", fileToSave);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+                saveImage();
             } else if (e.getSource() == dbtnp.brushButton) {
                 MyBoard.this.type = "Brush";
             } else if (e.getSource() == dbtnp.lineButton) {
@@ -364,10 +358,10 @@ public class MyBoard extends JPanel {
             } else if (e.getSource() == dbtnp.triangleButton) {
                 MyBoard.this.type = "Triangle";
             } else if (e.getSource() == dbtnp.redoButton) {
-                MyBoard.this.boardObjectList.remove(boardObjectList.size() - 1);
+               dpp.boardObjectList.remove(dpp.boardObjectList.size() - 1);
                 repaint();
             } else if (e.getSource() == dbtnp.resetButton) {
-                MyBoard.this.boardObjectList.clear();
+                dpp.boardObjectList.clear();
                 repaint();
             } else if (e.getSource() == cbtnp.redButton) {
                 MyBoard.this.color = Color.red;
@@ -390,4 +384,48 @@ public class MyBoard extends JPanel {
         }
     }//class ActionHandler
 
+
+    protected void saveImage() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            String filePath = fileToSave.getAbsolutePath();
+
+            // Check if the file has a .png extension, if not, add it
+            if (!filePath.toLowerCase().endsWith(".png")) {
+                fileToSave = new File(filePath + ".png");
+            }
+
+            try {
+                BufferedImage image = new BufferedImage(dpp.getWidth(), dpp.getHeight(), BufferedImage.TYPE_INT_ARGB);
+                Graphics2D g2d = image.createGraphics();
+
+                g2d.setColor(Color.WHITE);
+                g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
+
+                dpp.paint(g2d);
+                g2d.dispose();
+
+                // Save the image
+                ImageIO.write(image, "PNG", fileToSave);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public BufferedImage getDrawPaintPanelImage() {
+        BufferedImage image = new BufferedImage(dpp.getWidth(), dpp.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        dpp.paint(g2d);
+        g2d.dispose();
+
+        return image;
+    }
+
+    public void setDrawPaintPanelImage(BufferedImage image) {
+        dpp.setBackgroundImage(image);
+    }
 }//myboard

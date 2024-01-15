@@ -1,4 +1,6 @@
-package Frame.board;
+package board;
+
+import frame.MyFrame;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,7 +23,7 @@ public class MyNote extends MyBoard {
         this.setLayout(new BorderLayout());
 
         JPanel spanel = new JPanel(new BorderLayout());
-        txtp.setPreferredSize(new Dimension(800, 200));
+        txtp.setPreferredSize(new Dimension(MyFrame.FRAME_WIDTH, 200));
         spanel.add("Center", txtp);
         spanel.add("South", utilButtonPanel);
 
